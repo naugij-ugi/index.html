@@ -1,220 +1,334 @@
-import React from 'react';
-import { BookOpen, Layers, Gamepad2, CheckCircle, Star, LogIn } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { 
+  BookOpen, 
+  Layers, 
+  Gamepad2, 
+  LogIn, 
+  ChevronRight, 
+  CheckCircle2, 
+  Star,
+  Menu,
+  X,
+  MessageCircle,
+  Award,
+  Globe,
+  Sparkles
+} from 'lucide-react';
 
-export default function App() {
+const App = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const features = [
+    {
+      icon: <BookOpen className="w-8 h-8 text-blue-400" />,
+      title: "Materi Terintegrasi",
+      description: "Rangkuman materi komprehensif, kisi-kisi ujian terbaru, dan modul belajar per BAB yang disusun rapi untuk kurikulum PBA UNJ."
+    },
+    {
+      icon: <Layers className="w-8 h-8 text-emerald-400" />,
+      title: "Smart Flashcard",
+      description: "Optimalkan hafalan mufradat dengan sistem kartu digital yang interaktif untuk memperkuat memori jangka panjang."
+    },
+    {
+      icon: <Gamepad2 className="w-8 h-8 text-purple-400" />,
+      title: "Gamified Quiz",
+      description: "Uji pemahamanmu dengan latihan soal yang seru. Belajar terasa seperti bermain game namun tetap edukatif."
+    }
+  ];
+
+  const testimonials = [
+    {
+      name: "Siti Aminah",
+      class: "Kelas B",
+      text: "Fitur Flashcard di ArabiC sangat membantu buat hafalan mufradat di matkul Qiro'ah Mukatsafah. Nilai UTS saya naik drastis!",
+      rating: 5
+    },
+    {
+      name: "Ahmad Fauzi",
+      class: "Kelas E",
+      text: "Belajar Nahwu Awal jadi jauh lebih terstruktur. ArabiC menggabungkan materi berat menjadi modul Class yang ringan dipahami.",
+      rating: 5
+    },
+    {
+      name: "Rania Azzahra",
+      class: "Kelas H",
+      text: "Kisi-kisi Istima' Almurokaz di ArabiC sangat akurat. Sangat terbantu terutama saat mendekati pekan ujian.",
+      rating: 5
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
-      
-      {/* 1. HERO SECTION */}
-      <section className="relative bg-[#0f172a] min-h-screen flex flex-col justify-center items-center px-6 text-center overflow-hidden">
-        {/* Background Decoration */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-          <div className="absolute -top-[10%] -left-[10%] w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
-          <div className="absolute top-[20%] -right-[10%] w-[30rem] h-[30rem] bg-teal-500/10 rounded-full blur-3xl"></div>
-        </div>
+    <div className="min-h-screen bg-[#0f172a] font-sans text-slate-200 selection:bg-emerald-500/30">
+      {/* Navigation */}
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0f172a]/90 backdrop-blur-xl border-b border-white/5 py-3' : 'bg-transparent py-5'}`}>
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <div className="flex items-center space-x-2 group cursor-pointer">
+            <div className="w-10 h-10 bg-gradient-to-tr from-emerald-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform">
+              <Sparkles className="text-white w-6 h-6" />
+            </div>
+            <div className="flex items-baseline">
+              <span className="text-2xl font-bold tracking-tight text-white uppercase italic">Arabi</span>
+              <span className="text-4xl font-black bg-gradient-to-br from-emerald-400 to-blue-400 text-transparent bg-clip-text -ml-0.5">C</span>
+            </div>
+          </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
-          <h1 className="text-6xl md:text-8xl font-extrabold tracking-tight mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-400">
-              ALGIU
-            </span>
-            <span className="text-white"> CLASS</span>
-          </h1>
-          
-          <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 leading-relaxed">
-            Platform belajar untuk mahasiswa PBA UNJ dengan materi lengkap, quiz interaktif, dan fitur belajar lainnya.
-          </p>
-          
-          <button className="group flex items-center gap-2 bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-500 hover:to-teal-400 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all shadow-lg hover:shadow-cyan-500/30 transform hover:-translate-y-1">
-            <LogIn size={20} />
-            Login ke Kelas
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center space-x-8">
+            <a href="#fitur" className="text-sm uppercase tracking-widest hover:text-emerald-400 transition-colors font-semibold">Fitur</a>
+            <a href="#harga" className="text-sm uppercase tracking-widest hover:text-emerald-400 transition-colors font-semibold">Harga</a>
+            <a href="#testimoni" className="text-sm uppercase tracking-widest hover:text-emerald-400 transition-colors font-semibold">Testimoni</a>
+            <button className="flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white px-6 py-2 rounded-full font-bold border border-white/10 transition-all active:scale-95">
+              <LogIn className="w-4 h-4" />
+              <span>Masuk</span>
+            </button>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button className="md:hidden text-white focus:outline-none" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
-      </section>
 
-      {/* 2. FITUR SECTION */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">SEMUA YANG KAMU BUTUHKAN</h2>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto">Fitur Lengkap Yang Dirancang Untuk Mahasiswa PBA UNJ</p>
+        {/* Mobile Dropdown */}
+        {isMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-[#1e293b] border-b border-slate-700 p-6 animate-in slide-in-from-top duration-300">
+            <div className="flex flex-col space-y-4">
+              <a href="#fitur" onClick={() => setIsMenuOpen(false)} className="text-lg py-2 border-b border-slate-800">Fitur</a>
+              <a href="#harga" onClick={() => setIsMenuOpen(false)} className="text-lg py-2 border-b border-slate-800">Harga</a>
+              <a href="#testimoni" onClick={() => setIsMenuOpen(false)} className="text-lg py-2 border-b border-slate-800">Testimoni</a>
+              <button className="w-full bg-emerald-600 text-white py-4 rounded-xl font-bold flex items-center justify-center space-x-2 shadow-xl">
+                <LogIn className="w-5 h-5" />
+                <span>Masuk Sekarang</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <header className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-emerald-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div className="relative max-w-5xl mx-auto px-6 text-center z-10">
+          <div className="inline-flex items-center space-x-2 bg-white/5 backdrop-blur-sm border border-white/10 px-4 py-2 rounded-full mb-8">
+            <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-xs uppercase tracking-[0.2em] font-bold text-slate-300">The Ultimate PBA UNJ Class</span>
+          </div>
+          
+          <h1 className="text-7xl md:text-9xl font-black mb-8 leading-none tracking-tighter">
+            <span className="text-white">Arabi</span>
+            <span className="bg-gradient-to-br from-emerald-400 via-blue-400 to-blue-600 text-transparent bg-clip-text italic drop-shadow-2xl">C</span>
+          </h1>
+          
+          <p className="text-lg md:text-2xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+            Satu kata, ribuan ilmu. <span className="text-white font-semibold italic">ArabiC</span> menggabungkan esensi Bahasa Arab dengan sistem <span className="text-emerald-400 font-bold underline decoration-emerald-500/30 underline-offset-4">Class</span> yang modern dan interaktif.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <button className="group relative w-full sm:w-auto px-10 py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-black text-lg flex items-center justify-center space-x-3 transition-all hover:-translate-y-1 shadow-2xl shadow-emerald-600/40">
+              <LogIn className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+              <span>Gabung Kelas Sekarang</span>
+            </button>
+            <button className="w-full sm:w-auto px-10 py-5 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black text-lg flex items-center justify-center transition-all border border-white/10 backdrop-blur-sm">
+              Eksplorasi Materi
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Features Section */}
+      <section id="fitur" className="py-32 bg-[#0a0f1d] relative">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6 uppercase tracking-tighter">Filosofi Belajar Kami</h2>
+            <div className="h-1.5 w-24 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto rounded-full mb-6"></div>
+            <p className="text-slate-400 text-lg max-w-2xl mx-auto italic">"Menjadikan setiap momen belajar bahasa Arab sebagai pengalaman kelas digital yang tak terlupakan."</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Feature 1 */}
-            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-shadow group">
-              <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <BookOpen size={28} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {features.map((feature, idx) => (
+              <div key={idx} className="group p-10 rounded-[2.5rem] bg-gradient-to-b from-slate-900 to-slate-900/50 border border-white/5 hover:border-emerald-500/30 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(16,185,129,0.05)]">
+                <div className="w-20 h-20 bg-slate-800/50 rounded-3xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border border-white/5">
+                  {feature.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4 tracking-tight">{feature.title}</h3>
+                <p className="text-slate-400 leading-relaxed text-sm md:text-base">{feature.description}</p>
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-slate-800">Materi lengkap</h3>
-              <p className="text-slate-600 leading-relaxed">rangkuman materi, kisi kisi, dan materi per BAB</p>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-shadow group">
-              <div className="w-14 h-14 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Layers size={28} />
-              </div>
-              <h3 className="text-2xl font-bold mb-3 text-slate-800">Flash card</h3>
-              <p className="text-slate-600 leading-relaxed">kartu bolak balik dengan shuffle dan progress tracking</p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-shadow group">
-              <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Gamepad2 size={28} />
-              </div>
-              <h3 className="text-2xl font-bold mb-3 text-slate-800">Quiz interaktif</h3>
-              <p className="text-slate-600 leading-relaxed">latihan soal dari setiap BAB</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 3. PRICING SECTION */}
-      <section className="py-24 px-6 bg-slate-50">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">PILIH PAKET BELAJARMU</h2>
-            <p className="text-slate-500 text-lg">Investasi kecil untuk nilai IPK yang maksimal.</p>
+      {/* Pricing Section */}
+      <section id="harga" className="py-32 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div className="max-w-6xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6 uppercase tracking-tighter">Akses Eksklusif</h2>
+            <p className="text-slate-400 text-lg">Pilih jalur suksesmu bersama ArabiC Class</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch">
             {/* Paket Hemat */}
-            <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all relative flex flex-col">
-              <div className="mb-8">
-                <h3 className="text-2xl font-bold text-slate-800 mb-2">PAKET HEMAT</h3>
-                <p className="text-slate-500 min-h-[48px]">Paket hemat- Akses penuh, wajib share ke teman</p>
+            <div className="bg-slate-900/40 backdrop-blur-md border border-white/5 p-12 rounded-[3rem] flex flex-col hover:border-white/10 transition-all">
+              <h3 className="text-sm font-black text-slate-500 mb-4 uppercase tracking-[0.3em]">Tier Ekonomi</h3>
+              <div className="flex items-baseline space-x-2 mb-8">
+                <span className="text-5xl font-black text-white tracking-tighter">Rp. 10k</span>
+                <span className="text-slate-500 font-bold">/ Bulan</span>
               </div>
-              <div className="mb-8">
-                <span className="text-4xl font-extrabold text-slate-900">Rp. 10.000</span>
-                <span className="text-slate-500"> / 30 hari</span>
-              </div>
-              
-              <ul className="mb-8 space-y-4 flex-grow">
-                <li className="flex items-center gap-3 text-slate-700">
-                  <CheckCircle size={20} className="text-teal-500" /> Qiro'ah Mukatsafah & Kalam Mutawasith
-                </li>
-                <li className="flex items-center gap-3 text-slate-700">
-                  <CheckCircle size={20} className="text-teal-500" /> Nahwu Awal & Istima' Almurokaz
-                </li>
-                <li className="flex items-center gap-3 text-slate-700">
-                  <CheckCircle size={20} className="text-teal-500" /> Quiz & Flashcard
-                </li>
+              <p className="text-slate-400 mb-10 flex-grow text-lg italic">
+                "Akses lengkap dengan semangat berbagi. Cukup share manfaat ArabiC ke teman-temanmu."
+              </p>
+              <ul className="space-y-5 mb-12">
+                {["Modul Full Per Bab", "Smart Flashcard", "Bank Soal Interaktif"].map((item, i) => (
+                  <li key={i} className="flex items-center space-x-4 text-slate-300">
+                    <div className="bg-emerald-500/10 p-1 rounded-full">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                    </div>
+                    <span className="font-medium">{item}</span>
+                  </li>
+                ))}
               </ul>
-              
-              <button className="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold py-4 rounded-xl transition-colors">
-                Beli Paket
+              <button className="w-full py-5 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black transition-all border border-white/10">
+                Pilih Jalur Hemat
               </button>
             </div>
 
             {/* Paket Normal */}
-            <div className="bg-[#0f172a] p-8 rounded-3xl border border-blue-900 shadow-2xl relative flex flex-col transform md:-translate-y-4">
-              <div className="absolute top-0 right-0 bg-gradient-to-r from-teal-400 to-blue-500 text-white text-xs font-bold px-4 py-1 rounded-bl-xl rounded-tr-3xl uppercase tracking-wider">
-                Paling Laris
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-br from-emerald-500 via-blue-500 to-purple-600 rounded-[3.1rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+              <div className="relative bg-[#0f172a] border border-emerald-500/30 p-12 rounded-[3rem] flex flex-col h-full shadow-2xl">
+                <div className="absolute top-0 right-12 transform -translate-y-1/2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white text-[10px] font-black px-5 py-2 rounded-full uppercase tracking-[0.2em] shadow-xl">
+                  Most Popular
+                </div>
+                <h3 className="text-sm font-black text-emerald-400 mb-4 uppercase tracking-[0.3em]">Tier Sultan</h3>
+                <div className="flex items-baseline space-x-2 mb-8">
+                  <span className="text-5xl font-black text-white tracking-tighter">Rp. 15k</span>
+                  <span className="text-slate-500 font-bold">/ Bulan</span>
+                </div>
+                <p className="text-slate-400 mb-10 flex-grow text-lg italic">
+                  "Akses instan tanpa hambatan. Fokus 100% pada progres belajarmu di ArabiC Class."
+                </p>
+                <ul className="space-y-5 mb-12">
+                  {["Semua Fitur Hemat", "Tanpa Syarat Share", "Update Prioritas", "VIP Chat Support"].map((item, i) => (
+                    <li key={i} className="flex items-center space-x-4 text-slate-300">
+                      <div className="bg-blue-500/10 p-1 rounded-full">
+                        <CheckCircle2 className="w-5 h-5 text-blue-400" />
+                      </div>
+                      <span className="font-medium">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button className="w-full py-5 bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 text-white rounded-2xl font-black shadow-2xl shadow-emerald-600/30 transition-all active:scale-95">
+                  Beli Paket VIP
+                </button>
               </div>
-              <div className="mb-8">
-                <h3 className="text-2xl font-bold text-white mb-2">PAKET NORMAL</h3>
-                <p className="text-slate-400 min-h-[48px]">Akses penuh tanpa syarat apapun</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section id="testimoni" className="py-32 bg-[#0a0f1d] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6 uppercase tracking-tighter">Review Peserta Kelas</h2>
+            <p className="text-slate-400 text-lg">Bukti nyata transformasi belajar bersama ArabiC.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {testimonials.map((testi, idx) => (
+              <div key={idx} className="bg-slate-900/50 border border-white/5 p-10 rounded-[2rem] relative group hover:bg-slate-900 transition-colors">
+                <div className="flex space-x-1 mb-8">
+                  {[...Array(testi.rating)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-emerald-500 text-emerald-500" />
+                  ))}
+                </div>
+                <p className="text-lg italic text-slate-300 mb-10 leading-relaxed">"{testi.text}"</p>
+                <div className="flex items-center space-x-5">
+                  <div className="w-14 h-14 bg-gradient-to-br from-emerald-600 to-blue-600 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg">
+                    {testi.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white tracking-tight">{testi.name}</h4>
+                    <p className="text-xs text-slate-500 font-black uppercase tracking-widest">{testi.class}</p>
+                  </div>
+                </div>
               </div>
-              <div className="mb-8">
-                <span className="text-4xl font-extrabold text-white">Rp. 15.000</span>
-                <span className="text-slate-400"> / 30 hari</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#050810] border-t border-white/5 py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+            <div className="md:col-span-2">
+              <div className="flex items-center space-x-2 mb-8">
+                <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center">
+                  <Sparkles className="text-white w-6 h-6" />
+                </div>
+                <div className="flex items-baseline">
+                  <span className="text-2xl font-bold text-white uppercase italic">Arabi</span>
+                  <span className="text-4xl font-black text-emerald-400 -ml-0.5">C</span>
+                </div>
               </div>
-              
-              <ul className="mb-8 space-y-4 flex-grow">
-                <li className="flex items-center gap-3 text-slate-300">
-                  <CheckCircle size={20} className="text-teal-400" /> Semua Materi 4 Mata Kuliah
-                </li>
-                <li className="flex items-center gap-3 text-slate-300">
-                  <CheckCircle size={20} className="text-teal-400" /> Fitur AI & Audio Learning
-                </li>
-                <li className="flex items-center gap-3 text-slate-300">
-                  <CheckCircle size={20} className="text-teal-400" /> Ruang Latihan Bicara & Catatan
-                </li>
+              <p className="text-slate-500 max-w-sm mb-10 leading-relaxed text-lg">
+                Merevolusi cara mahasiswa PBA UNJ menguasai Bahasa Arab melalui platform Class digital yang cerdas dan efisien.
+              </p>
+              <div className="flex space-x-4">
+                <button className="w-12 h-12 bg-white/5 hover:bg-white/10 text-white rounded-2xl transition-all border border-white/10 flex items-center justify-center">
+                  <MessageCircle size={24} />
+                </button>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="text-white font-black mb-8 text-xs uppercase tracking-[0.3em]">Discovery</h4>
+              <ul className="space-y-5 text-slate-500 text-sm font-bold uppercase tracking-widest">
+                <li><a href="#" className="hover:text-emerald-400 transition-colors">Utama</a></li>
+                <li><a href="#fitur" className="hover:text-emerald-400 transition-colors">Fitur Class</a></li>
+                <li><a href="#harga" className="hover:text-emerald-400 transition-colors">Pricing</a></li>
+                <li><a href="#testimoni" className="hover:text-emerald-400 transition-colors">Testimoni</a></li>
               </ul>
-              
-              <button className="w-full bg-gradient-to-r from-blue-500 to-teal-400 hover:from-blue-400 hover:to-teal-300 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-teal-500/25">
-                Beli Paket
-              </button>
+            </div>
+
+            <div>
+              <h4 className="text-white font-black mb-8 text-xs uppercase tracking-[0.3em]">Support</h4>
+              <ul className="space-y-5 text-slate-500 text-sm font-bold uppercase tracking-widest">
+                <li><a href="#" className="hover:text-emerald-400 transition-colors">Hubungi Kami</a></li>
+                <li><a href="#" className="hover:text-emerald-400 transition-colors">FAQ Belajar</a></li>
+                <li><a href="#" className="hover:text-emerald-400 transition-colors">Panduan PBA</a></li>
+                <li><a href="#" className="hover:text-emerald-400 transition-colors">Konfirmasi</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0 text-[10px] font-black text-slate-600 uppercase tracking-[0.3em]">
+            <p>© 2024 ArabiC. Integrated E-Learning for PBA Students.</p>
+            <div className="flex space-x-10">
+              <span className="hover:text-slate-400 cursor-pointer">Privacy</span>
+              <span className="hover:text-slate-400 cursor-pointer">Terms</span>
+              <span className="hover:text-slate-400 cursor-pointer">Cookies</span>
             </div>
           </div>
         </div>
-      </section>
-
-      {/* 4. TESTIMONIAL SECTION */}
-      <section className="py-24 px-6 bg-white border-t border-slate-100">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">APA KATA MEREKA</h2>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto">Pengalaman mahasiswa yang sudah menggunakan AlgiuClass.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Review 1 */}
-            <div className="bg-slate-50 p-6 rounded-2xl">
-              <div className="flex gap-1 text-yellow-400 mb-4">
-                <Star size={18} fill="currentColor" />
-                <Star size={18} fill="currentColor" />
-                <Star size={18} fill="currentColor" />
-                <Star size={18} fill="currentColor" />
-                <Star size={18} fill="currentColor" />
-              </div>
-              <p className="text-slate-700 italic mb-6">"Sangat membantu banget buat muroja'ah Nahwu Awal. Flashcardnya bikin gampang hafal kaidah-kaidah penting. Terjangkau banget buat mahasiswa!"</p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center font-bold text-blue-700">A</div>
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Ahmad R.</h4>
-                  <p className="text-xs text-slate-500">PBA UNJ - Kelas C</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Review 2 */}
-            <div className="bg-slate-50 p-6 rounded-2xl">
-              <div className="flex gap-1 text-yellow-400 mb-4">
-                <Star size={18} fill="currentColor" />
-                <Star size={18} fill="currentColor" />
-                <Star size={18} fill="currentColor" />
-                <Star size={18} fill="currentColor" />
-                <Star size={18} fill="currentColor" />
-              </div>
-              <p className="text-slate-700 italic mb-6">"Fitur audio learning di Istima' Almurokaz juara sih. Bisa dengerin percakapan berulang kali sampai telinga terbiasa. Worth it banget Rp 15.000!"</p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-teal-200 rounded-full flex items-center justify-center font-bold text-teal-700">F</div>
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Fatimah A.</h4>
-                  <p className="text-xs text-slate-500">PBA UNJ - Kelas A</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Review 3 */}
-            <div className="bg-slate-50 p-6 rounded-2xl">
-              <div className="flex gap-1 text-yellow-400 mb-4">
-                <Star size={18} fill="currentColor" />
-                <Star size={18} fill="currentColor" />
-                <Star size={18} fill="currentColor" />
-                <Star size={18} fill="currentColor" />
-                <Star size={18} fill="currentColor" />
-              </div>
-              <p className="text-slate-700 italic mb-6">"Webnya rapi dan gampang dipake. Ngerjain latihan Qiro'ah Mukatsafah jadi gak bosen karena ada interaktif quiznya."</p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-indigo-200 rounded-full flex items-center justify-center font-bold text-indigo-700">Z</div>
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm">Zaidan H.</h4>
-                  <p className="text-xs text-slate-500">PBA UNJ - Kelas F</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="bg-[#0f172a] py-8 text-center text-slate-400 border-t border-slate-800">
-        <p>© 2026 Algiu Class. Dibuat khusus untuk Mahasiswa PBA UNJ.</p>
       </footer>
     </div>
   );
-}
+};
+
+export default App;
